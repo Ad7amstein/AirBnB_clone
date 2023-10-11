@@ -11,12 +11,24 @@ class BaseModel:
     """defines all common attributes/methods for other classes
     """
 
-    def __init__(self):
-        """Initialize the data."""
+    def __init__(self, *args, **kwargs):
+        """Initialize the data.
+            
+            Args:
+                args: arguments passed
+                kwargs: the magic args
+        """
 
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs and len(kwargs) != 0:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    if key in ["created_at", "updated_at"]:
+                        value = datetime.fromisoformat(value)
+                    self.__dict__[key] = value
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """String representation of the object"""
