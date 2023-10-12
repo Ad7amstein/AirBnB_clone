@@ -7,13 +7,14 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """defines all common attributes/methods for other classes
     """
 
     def __init__(self, *args, **kwargs):
         """Initialize the data.
-            
+
             Args:
                 args: arguments passed
                 kwargs: the magic args
@@ -34,8 +35,8 @@ class BaseModel:
     def __str__(self):
         """String representation of the object"""
 
-        return ("[{}] ({}) {}".format(type(self).__name__,
-                                    self.id, self.__dict__))
+        return ("[{}] ({}) {}".
+                format(type(self).__name__, self.id, self.__dict__))
 
     def save(self):
         """updates the public instance attribute updated_at

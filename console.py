@@ -5,6 +5,7 @@
 import cmd
 import models
 
+
 class HBNBCommand(cmd.Cmd):
     """this class to make command line interpreter"""
     prompt = '(hbnb) '
@@ -16,11 +17,11 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program\n"""
         return (True)
-    
+
     def emptyline(self):
         """do not do anything\n"""
         pass
-    
+
     def do_create(self, arg):
         """this command creates a new instance of a class\n"""
         if (len(arg) == 0):
@@ -38,22 +39,19 @@ class HBNBCommand(cmd.Cmd):
         if (len(prs_cmd) == 0):
             print("** class name missing **")
             return
-        elif(prs_cmd[0] != "BaseModel"):
+        elif (prs_cmd[0] != "BaseModel"):
             print("** class doesn't exist **")
             return
-        elif(len(prs_cmd) < 2):
+        elif (len(prs_cmd) < 2):
             print("** instance id missing **")
             return
-        
-        flag = 0
-        #key = prs_cmd[0] + '.' + prs_cmd[1]
+
         for value in models.storage.all().values():
             if prs_cmd[1] == value.id:
                 print(value)
-                flag = 1
-        if flag != 1:
-            print("** no instance found **")
+                return
 
+        print("** no instance found **")
 
 
 if __name__ == '__main__':
