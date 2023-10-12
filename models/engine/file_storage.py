@@ -3,8 +3,9 @@
 """Defines a file storage module
 """
 import json
-from models import base_model
+from models.base_model import BaseModel
 
+cls_names = {"BaseModel": BaseModel}
 
 class FileStorage:
     """serializes instances to
@@ -16,7 +17,7 @@ class FileStorage:
     def all(self):
         """returns the dictionary __objects
         """
-        return type(self).__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id
@@ -24,15 +25,15 @@ class FileStorage:
                 obj: dict stores the objects
         """
         key = type(obj).__name__ + "." + obj.id
-        type(self).__objects[key] = obj
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         d = {}
-        for key, value in type(self).__objects.items():
+        for key, value in FileStorage.__objects.items():
             d[key] = value.to_dict()
 
-        with open(type(self).__file_path, mode="w", encoding="UTF-8") as file:
+        with open(FileStorage.__file_path, mode="w", encoding="UTF-8") as file:
             json.dump(d, file)
 
     def reload(self):
@@ -40,11 +41,11 @@ class FileStorage:
         """
         d = {}
         try:
-            with open(type(self).__file_path, encoding="UTF-8") as file:
+            with open(FileStorage.__file_path, encoding="UTF-8") as file:
                 d = json.load(file)
         except FileNotFoundError:
             pass
 
         for value in d.values():
-            obj = base_model.BaseModel(**value)
+            obj = cls_names[value["__class__"]](**value)
             self.new(obj)
