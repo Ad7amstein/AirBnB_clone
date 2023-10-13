@@ -103,8 +103,7 @@ class TestBase(unittest.TestCase):
         b1 = BaseModel()
         b1.name = "My First Model"
         b1.my_number = 89
-        string = "[{}] ({}) {}".\
-                format(type(b1).__name__, b1.id, b1.__dict__)
+        string = "[{}] ({}) {}".format(type(b1).__name__, b1.id, b1.__dict__)
         self.assertEqual(b1.__str__(), string)
 
     def test_save(self):
