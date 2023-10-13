@@ -3,9 +3,8 @@
 """Defines a file storage module
 """
 import json
-from models.base_model import BaseModel
+import models
 
-cls_names = {"BaseModel": BaseModel}
 
 class FileStorage:
     """serializes instances to
@@ -47,5 +46,5 @@ class FileStorage:
             pass
 
         for value in d.values():
-            obj = cls_names[value["__class__"]](**value)
+            obj = models.cls_names[value["__class__"]](**value)
             self.new(obj)
