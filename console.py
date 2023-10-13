@@ -3,10 +3,8 @@
 """this is a command console to test our models"""
 
 import cmd
-from models.base_model import BaseModel
 from models import storage
-
-cls_names = ["BaseModel"]
+from models import cls_names
 
 class HBNBCommand(cmd.Cmd):
     """this class to make command line interpreter"""
@@ -27,12 +25,13 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """this command creates a new instance of a class\n"""
-        if (len(arg) == 0):
+        line = arg.split()
+        if (len(line) == 0):
             print("** class name missing **")
-        elif arg not in cls_names:
+        elif line[0] not in cls_names:
             print("** class doesn't exist **")
         else:
-            new_instance = BaseModel()
+            new_instance = cls_names[line[0]]()
             print(new_instance.id)
             storage.new(new_instance)
             storage.save()
@@ -87,10 +86,11 @@ class HBNBCommand(cmd.Cmd):
         if len(line) != 0 and line[0] not in cls_names:
             print("** class doesn't exist **")
             return
-        if len(line) != 0:
-            for key, value in storage.all().items():
-                if line[0] in key:
-                    l.append(value.__str__())
+        for key, value in storage.all().items():
+            if len(line) == 0:
+                l.append(value.__str__())
+            elif line[0] in key:
+                l.append(value.__str__())
         print(l)
 
     def do_update(self, arg):
