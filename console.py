@@ -159,12 +159,6 @@ class HBNBCommand(cmd.Cmd):
         """Handels unexisting commands commands.
         """
         line = arg.split(".")
-        commands = {"all": self.do_all,
-                    "count": self.count_instances,
-                    "show": self.do_show,
-                    "destroy": self.do_destroy,
-                    "update": self.do_update}
-
         if not line or len(line) < 2 or line[0] not in cls_names:
             super().default(arg)
             return
@@ -173,6 +167,8 @@ class HBNBCommand(cmd.Cmd):
             self.do_all(line[0])
         elif line[1] == "count()":
             self.count_instances(line[0])
+        else:
+            super().default(arg)
 
 
 if __name__ == '__main__':
