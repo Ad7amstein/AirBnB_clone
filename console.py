@@ -37,6 +37,28 @@ class HBNBCommand(cmd.Cmd):
             storage.new(new_instance)
             storage.save()
 
+    def complete_create(self, text, line, begidx, endidx):
+        """Predicts and complete the argument of create command\n"""
+        if not text:
+            completions = cls_names.keys()
+        else:
+            completions = [key
+                           for key in cls_names.keys()
+                           if key.startswith(text)
+                           ]
+        return completions
+
+    def complete_all(self, text, line, begidx, endidx):
+        """Predicts and complete the argument of create command\n"""
+        if not text:
+            completions = cls_names.keys()
+        else:
+            completions = [key
+                           for key in cls_names.keys()
+                           if key.startswith(text)
+                           ]
+        return completions
+
     def do_show(self, arg):
         """this command shows an instance\n"""
         prs_cmd = arg.split()
