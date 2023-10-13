@@ -146,6 +146,34 @@ class HBNBCommand(cmd.Cmd):
         setattr(storage.all()[key], line[2], line[3][1:-1])
         storage.save()
 
+    def count_instances(self, arg):
+        """Count the number of instances.
+        """
+        counter = 0
+        for value in storage.all().values():
+            if value.__class__.__name__ == arg:
+                counter += 1
+        print(counter)
+
+    def default(self, arg):
+        """Handels unexisting commands commands.
+        """
+        line = arg.split(".")
+        commands = {"all": self.do_all,
+                    "count": self.count_instances,
+                    "show": self.do_show,
+                    "destroy": self.do_destroy,
+                    "update": self.do_update}
+
+        if not line or len(line) < 2 or line[0] not in cls_names:
+            super().default(arg)
+            return
+
+        if line[1] == "all()":
+            self.do_all(line[0])
+        elif line[1] == "count()":
+            self.count_instances(line[0])
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
