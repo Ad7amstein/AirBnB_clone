@@ -6,6 +6,7 @@ import cmd
 from models import storage
 from models import cls_names
 
+
 class HBNBCommand(cmd.Cmd):
     """this class to make command line interpreter"""
 
@@ -82,16 +83,16 @@ class HBNBCommand(cmd.Cmd):
             based or not on the class name.
         """
         line = arg.split()
-        l = []
+        objects = []
         if len(line) != 0 and line[0] not in cls_names:
             print("** class doesn't exist **")
             return
         for key, value in storage.all().items():
             if len(line) == 0:
-                l.append(value.__str__())
+                objects.append(value.__str__())
             elif line[0] in key:
-                l.append(value.__str__())
-        print(l)
+                objects.append(value.__str__())
+        print(objects)
 
     def do_update(self, arg):
         """ Updates an instance based on the class name and id
@@ -122,6 +123,7 @@ class HBNBCommand(cmd.Cmd):
             return
         setattr(storage.all()[key], line[2], line[3][1:-1])
         storage.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
