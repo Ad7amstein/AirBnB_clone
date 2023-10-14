@@ -155,6 +155,20 @@ class HBNBCommand(cmd.Cmd):
                 counter += 1
         print(counter)
 
+    def show_instance(self, *arg):
+        """shows a specific instance of a class"""
+        try:
+            ID = ((arg[1].split("("))[1].split(")"))[0]
+        except Exception:
+            super().default("{}.{}".format(arg[0], arg[1]))
+            return
+        ID = ID[1:-1]
+        for Value in storage.all().values():
+            if Value.__class__.__name__ == arg[0] and Value.id == ID:
+                print(Value)
+                return
+        print("** no instance found **")
+
     def default(self, arg):
         """Handels unexisting commands commands.
         """
@@ -167,6 +181,8 @@ class HBNBCommand(cmd.Cmd):
             self.do_all(line[0])
         elif line[1] == "count()":
             self.count_instances(line[0])
+        elif line[1][0:4] == "show":
+            self.show_instance(line[0], line[1])
         else:
             super().default(arg)
 
