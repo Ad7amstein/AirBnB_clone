@@ -192,8 +192,24 @@ class HBNBCommand(cmd.Cmd):
         ID = list_of_arguments[0][1:-1]
         key = "{}.{}".format(arg[0], ID)
 
-        if len(list_of_arguments) == 2:
-            pass
+        if '{' in list_of_arguments[1]:
+            obj_dict_str = (all_arguments.split("{")[1]).split("}")[0]
+            obj_attr = obj_dict_str.split(", ")
+            for i in range(len(obj_attr)):
+                obj_attr[i] = obj_attr[i].split(": ")
+
+            if key in storage.all().keys():
+                for i in range(len(obj_attr)):
+                    if obj_attr[i][1][0] == "\"" or obj_attr[i][1][0] == "\'":
+                        setattr(storage.all()[key],
+                                obj_attr[i][0][1:-1],
+                                obj_attr[i][1][1:-1])
+                    else:
+                        setattr(storage.all()[key],
+                                obj_attr[i][0][1:-1],
+                                obj_attr[i][1])
+            else:
+                print("** no instance found **")
         elif len(list_of_arguments) == 3:
 
             attr_name = list_of_arguments[1][2:-1]
