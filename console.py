@@ -168,7 +168,7 @@ class HBNBCommand(cmd.Cmd):
                 print(Value)
                 return
         print("** no instance found **")
-    
+
     def destroy_instance(self, *arg):
         """destroy a specific instance of a class"""
         try:
@@ -183,6 +183,27 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         else:
             print("** no instance found **")
+
+    def update_instance(self, *arg):
+        """function to update an instance"""
+
+        all_arguments = ((arg[1].split("("))[1].split(")"))[0]
+        list_of_arguments = all_arguments.split(",")
+        ID = list_of_arguments[0][1:-1]
+        key = "{}.{}".format(arg[0], ID)
+
+        if len(list_of_arguments) == 2:
+            pass
+        elif len(list_of_arguments) == 3:
+
+            attr_name = list_of_arguments[1][2:-1]
+            attr_value = list_of_arguments[2][2:-1]
+
+            if key in storage.all().keys():
+                setattr(storage.all()[key], attr_name, attr_value)
+                storage.save()
+            else:
+                print("** no instance found **")
 
     def default(self, arg):
         """Handels unexisting commands commands.
@@ -200,6 +221,8 @@ class HBNBCommand(cmd.Cmd):
             self.show_instance(line[0], line[1])
         elif line[1][0:7] == "destroy":
             self.destroy_instance(line[0], line[1])
+        elif line[1][0:6] == "update":
+            self.update_instance(line[0], line[1])
         else:
             super().default(arg)
 
