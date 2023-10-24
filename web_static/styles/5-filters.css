@@ -20,6 +20,7 @@
     top: 50%;
     transform: translateY(-50%);
 }
+
 .locations,
 .amenities {
     height: 100%;
@@ -27,16 +28,21 @@
     display: inline-block;
     line-height: .5px;
 }
+
 .locations {
     border-right: 1px solid #DDDDDD;
 }
-h3, h4 {
+
+h3,
+h4 {
     margin: 15px 45px;
 }
+
 h3 {
     margin-top: 27px;
     font-weight: 600;
 }
+
 h4 {
     font-weight: 400;
     font-size: 14px;
